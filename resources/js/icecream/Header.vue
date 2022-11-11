@@ -18,10 +18,10 @@
                     </template>
 
                     <template v-if="user">
-                        <router-link to="/profile" class="btn">{{ user.name }}</router-link>
-                        <router-link to="/register" class="btn"
-                            >Logout</router-link
-                        >
+                        <router-link to="/profile" class="btn">{{
+                            user.name
+                        }}</router-link>
+                        <button @click="logout()" class="btn">Logout</button>
                     </template>
                 </div>
             </div>
@@ -29,7 +29,7 @@
     </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
     data() {
         return {
@@ -41,6 +41,18 @@ export default {
             auth: "auth/authenticated",
             user: "auth/user",
         }),
+    },
+    methods: {
+        ...mapActions({
+            logoutAction: "auth/logOut",
+        }),
+        logout() {
+            this.logoutAction().then(() => {
+                this.$router.replace({
+                    name: "Login",
+                });
+            });
+        },
     },
 };
 </script>

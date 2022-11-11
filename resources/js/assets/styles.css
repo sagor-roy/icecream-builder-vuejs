@@ -428,3 +428,8 @@ ul.errors {
 .success-bg{
   background-color: red;
 }
+
+button {
+  outline: none;
+  border: none;
+}

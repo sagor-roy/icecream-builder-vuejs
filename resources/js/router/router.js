@@ -7,11 +7,12 @@ import store from "../store/store";
 
 const routes = [
     { path: "/", name: "Home", component: Home },
-    { path: "/login", name: "Login", component: Login },
+    { path: "/login", name: "Login", component: Login, beforeEnter: guest },
     {
         path: "/register",
         name: "Register",
         component: Register,
+        beforeEnter: guest,
     },
     {
         path: "/profile",
@@ -33,12 +34,10 @@ function isLoggedIn(to, from, next) {
 function guest(to, from, next) {
     if (store.getters["auth/authenticated"] !== null) {
         next({
-            name: "Home",
+            name: "Profile",
         });
     }
-    next({
-        name: "Login",
-    });
+    next();
 }
 
 const router = createRouter({

@@ -66,7 +66,7 @@
 <script>
 import Header from "../Header.vue";
 import Footer from "../Footer.vue";
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
     components: {
         Header,
@@ -76,8 +76,6 @@ export default {
         return {
             email: "",
             password: "",
-            errors: [],
-            resError: "",
             isLoading: false,
         };
     },
@@ -86,20 +84,29 @@ export default {
             signIn: "auth/signIn",
         }),
         formSubmit() {
+            this.isLoading = true;
             const data = {
                 email: this.email,
                 password: this.password,
             };
             this.signIn(data)
                 .then(() => {
+                    this.isLoading = false;
                     this.$router.replace({
                         name: "Profile",
                     });
                 })
                 .catch(() => {
-                    console.log('Something is wrong');
+                    this.isLoading = false;
+                    console.log("Something is wrong");
                 });
         },
+    },
+    computed: {
+        ...mapGetters({
+            errors: "auth/errorMessages",
+            resError: "auth/resErrorMessage",
+        }),
     },
 };
 </script>

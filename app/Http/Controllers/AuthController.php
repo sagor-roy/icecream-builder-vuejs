@@ -62,7 +62,7 @@ class AuthController extends Controller
     {
         try {
             $user = Auth::user();
-            return $this->responseSuccess(new UserResponseResource($user), 'Login user data');
+            return $user;
         } catch (Exception $error) {
             return $this->responseError($error->getMessage());
         }

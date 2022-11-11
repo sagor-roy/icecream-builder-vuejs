@@ -5,19 +5,30 @@ export default {
     state: {
         token: null,
         user: null,
+        errorMessage: [],
+        resError: "",
     },
     mutations: {
         AUTH_TOKEN(state, token) {
             state.token = token;
         },
         SET_USER(state, user) {
-            state.user = user.data;
+            state.user = user;
         },
     },
     actions: {
-        async signIn({ dispatch }, data) {
-            const response = await axios.post("api/login", data);
-            return dispatch("attempt", response.data.data.token);
+        async signIn({ dispatch, state }, data) {
+            await axios
+                .post("api/login", data)
+                .then((res) => {
+                    state.resError = res.data.error;
+                    state.errorMessage = [];
+                    return dispatch("attempt", res.data.data.token);
+                })
+                .catch((error) => {
+                    state.errorMessage = error.response.data.errors;
+                    state.resError = "";
+                });
         },
 
         async attempt({ commit, state }, token) {
@@ -25,20 +36,31 @@ export default {
                 commit("AUTH_TOKEN", token);
             }
 
-            if (!state.token) {
-                return false;
-            }
             try {
-                const response = await axios.get("api/user", {
-                    headers: {
-                        ["Authorization"]: "Bearer " + token,
-                    },
-                });
-                commit("SET_USER", response.data);
+                if (state.token) {
+                    const response = await axios.get("api/user", {
+                        headers: {
+                            Authorization: "Bearer " + token,
+                        },
+                    });
+                    commit("SET_USER", response.data);
+                }
             } catch (error) {
                 commit("AUTH_TOKEN", null);
                 commit("SET_USER", null);
             }
+        },
+        async logOut({ commit, state }) {
+            return await axios
+                .get("api/logout", {
+                    headers: {
+                        Authorization: "Bearer " + state.token,
+                    },
+                })
+                .then(() => {
+                    commit("AUTH_TOKEN", null);
+                    commit("SET_USER", null);
+                });
         },
     },
     getters: {
@@ -47,6 +69,14 @@ export default {
         },
         user(state) {
             return state.user;
+        },
+
+        errorMessages(state) {
+            return state.errorMessage;
+        },
+
+        resErrorMessage(state) {
+            return state.resError;
         },
     },
 };
