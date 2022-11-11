@@ -23,7 +23,7 @@ export default {
                 .then((res) => {
                     state.resError = res.data.error;
                     state.errorMessage = [];
-                    return dispatch("attempt", res.data.data.token);
+                    return dispatch("attempt", res.data.token);
                 })
                 .catch((error) => {
                     state.errorMessage = error.response.data.errors;
