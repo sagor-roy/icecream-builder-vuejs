@@ -98,44 +98,8 @@ export default {
             isLoading: false,
         };
     },
-    methods: {
-        async formSubmit() {
-            this.isLoading = true;
-            await axios
-                .post("api/register", {
-                    name: this.name,
-                    email: this.email,
-                    password: this.password,
-                    password_confirmation: this.password_confirmation,
-                })
-                .then((res) => {
-                    if (res.data.error == null) {
-                        localStorage.setItem(
-                            "access_token",
-                            res.data.data.token
-                        );
-                        this.$router.push({ name: "Home" });
-                    } else {
-                        this.inputField();
-                        this.errors = [];
-                        this.resError = res.data.error;
-                    }
-                })
-                .catch((error) => {
-                    this.inputField();
-                    this.resError = "";
-                    this.errors = error.response.data.errors;
-                });
-        },
-        inputField() {
-            return [
-                (this.name = ""),
-                (this.email = ""),
-                (this.password = ""),
-                (this.isLoading = false),
-            ];
-        },
-    },
+    methods: {},
+    computed: {},
 };
 </script>
 <style scoped>

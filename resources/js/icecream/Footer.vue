@@ -1,6 +1,6 @@
 <template lang="">
     <div>
-        <footer>
+        <!-- <footer>
             <div class="container react" id="footer">
                 <div>Copyright &copy;2020.</div>
                 <div class="textRight">
@@ -12,7 +12,7 @@
                     >
                 </div>
             </div>
-        </footer>
+        </footer> -->
     </div>
 </template>
 <script>

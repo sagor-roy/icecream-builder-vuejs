@@ -70,7 +70,6 @@ span {
 }
 
 .container {
-  border-bottom: 1px solid #5250507e;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -421,15 +420,23 @@ ul.errors {
   color: #333;
 }
 
-.error-bg{
+.error-bg {
   background-color: #ff7575;
 }
 
-.success-bg{
+.success-bg {
   background-color: red;
 }
 
 button {
   outline: none;
   border: none;
+  line-height: normal !important;
+}
+
+div#footer {
+  position: fixed;
+  bottom: 0;
+  padding: 20px 0;
+  border-top: 1px solid #b3aaaa;
 }

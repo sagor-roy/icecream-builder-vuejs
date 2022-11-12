@@ -1,41 +1,42 @@
 import axios from "axios";
 
 export default {
-    namespaced: true,
     state: {
+        auth_status: false,
         token: null,
-        user: null,
-        errorMessage: [],
-        resError: "",
+        info: {
+            name: "",
+            email: "",
+        },
     },
     mutations: {
         AUTH_TOKEN(state, token) {
             state.token = token;
+            state.auth_status = true;
         },
-        SET_USER(state, user) {
-            state.user = user;
+        SET_USER(state, data) {
+            state.info.name = data.name;
+            state.info.email = data.email;
         },
     },
     actions: {
-        async signIn({ dispatch, state }, data) {
-            await axios
-                .post("api/login", data)
-                .then((res) => {
-                    state.resError = res.data.error;
-                    state.errorMessage = [];
-                    return dispatch("attempt", res.data.token);
-                })
-                .catch((error) => {
-                    state.errorMessage = error.response.data.errors;
-                    state.resError = "";
-                });
+        login({ dispatch, commit }, data) {
+            return new Promise((resolve, reject) => {
+                axios
+                    .post("api/login", data)
+                    .then((res) => {
+                        resolve(res);
+                        if (res.data.status) {
+                            commit("AUTH_TOKEN", res.data.token);
+                            return dispatch("attempt", res.data.token);
+                        }
+                    })
+                    .catch((error) => {
+                        reject(error);
+                    });
+            });
         },
-
         async attempt({ commit, state }, token) {
-            if (token) {
-                commit("AUTH_TOKEN", token);
-            }
-
             try {
                 if (state.token) {
                     const response = await axios.get("api/user", {
@@ -50,33 +51,36 @@ export default {
                 commit("SET_USER", null);
             }
         },
-        async logOut({ commit, state }) {
-            return await axios
-                .get("api/logout", {
-                    headers: {
-                        Authorization: "Bearer " + state.token,
-                    },
-                })
-                .then(() => {
-                    commit("AUTH_TOKEN", null);
-                    commit("SET_USER", null);
-                });
+        logout({ state }) {
+            return new Promise((resolve, reject) => {
+                axios
+                    .get("api/logout", {
+                        headers: {
+                            Authorization: "Bearer " + state.token,
+                        },
+                    })
+                    .then((res) => {
+                        resolve(res);
+                        state.token = null;
+                        state.auth_status = null;
+                        state.info = {};
+                        localStorage.removeItem("vuex");
+                    })
+                    .catch((error) => {
+                        reject(error);
+                    });
+            });
         },
     },
     getters: {
-        authenticated(state) {
-            return state.token && state.user;
+        authentication(state) {
+            return state.auth_status;
+        },
+        token(state) {
+            return state.token;
         },
         user(state) {
-            return state.user;
-        },
-
-        errorMessages(state) {
-            return state.errorMessage;
-        },
-
-        resErrorMessage(state) {
-            return state.resError;
+            return state.info;
         },
     },
 };

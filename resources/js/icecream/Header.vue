@@ -17,9 +17,9 @@
                         >
                     </template>
 
-                    <template v-if="user">
+                    <template v-if="auth">
                         <router-link to="/profile" class="btn">{{
-                            user.name
+                            user.email
                         }}</router-link>
                         <button @click="logout()" class="btn">Logout</button>
                     </template>
@@ -29,29 +29,33 @@
     </div>
 </template>
 <script>
-import { mapGetters, mapActions } from "vuex";
+import axios from "axios";
+
 export default {
     data() {
         return {
             imgurl: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Vue.js_Logo_2.svg/1184px-Vue.js_Logo_2.svg.png",
+            user: [],
         };
     },
     computed: {
-        ...mapGetters({
-            auth: "auth/authenticated",
-            user: "auth/user",
-        }),
+        auth() {
+            return this.$store.getters.authentication;
+        },
+    },
+    mounted() {
+        this.user = this.$store.getters.user;
     },
     methods: {
-        ...mapActions({
-            logoutAction: "auth/logOut",
-        }),
         logout() {
-            this.logoutAction().then(() => {
-                this.$router.replace({
-                    name: "Login",
+            this.$store
+                .dispatch("logout")
+                .then((res) => {
+                    this.$router.push({ name: "Home" });
+                })
+                .catch((error) => {
+                    console.log(error);
                 });
-            });
         },
     },
 };

@@ -5,9 +5,28 @@ import Register from "../icecream/auth/Register.vue";
 import Profile from "../icecream/auth/Profile.vue";
 import store from "../store/store";
 
+const auth = (to, from, next) => {
+    if (!store.getters.authentication) {
+        return next({ name: "Login" });
+    }
+    return next();
+};
+
+const guest = (to, from, next) => {
+    if (store.getters.authentication) {
+        return next({ name: "Profile" });
+    }
+    return next();
+};
+
 const routes = [
     { path: "/", name: "Home", component: Home },
-    { path: "/login", name: "Login", component: Login, beforeEnter: guest },
+    {
+        path: "/login",
+        name: "Login",
+        component: Login,
+        beforeEnter: guest,
+    },
     {
         path: "/register",
         name: "Register",
@@ -18,27 +37,9 @@ const routes = [
         path: "/profile",
         name: "Profile",
         component: Profile,
-        beforeEnter: isLoggedIn,
+        beforeEnter: auth,
     },
 ];
-
-function isLoggedIn(to, from, next) {
-    if (store.getters["auth/authenticated"] == null) {
-        next({
-            name: "Login",
-        });
-    }
-    next();
-}
-
-function guest(to, from, next) {
-    if (store.getters["auth/authenticated"] !== null) {
-        next({
-            name: "Profile",
-        });
-    }
-    next();
-}
 
 const router = createRouter({
     routes,

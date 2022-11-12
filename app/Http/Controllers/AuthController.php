@@ -39,7 +39,7 @@ class AuthController extends Controller
         try {
             if (Auth::attempt($request->only('email', 'password'))) {
                 $token = Auth::user()->createToken('token')->accessToken;
-                return response()->json(['token' => $token]);
+                return response()->json(['status'=>true,'token' => $token]);
             }
             return $this->responseError("The credential doesn't match our record");
         } catch (Exception $error) {
@@ -61,6 +61,16 @@ class AuthController extends Controller
     {
         try {
             $user = Auth::user();
+            return response()->json($user);
+        } catch (Exception $error) {
+            return $this->responseError($error->getMessage());
+        }
+    }
+
+    public function all()
+    {
+        try {
+            $user = User::all();
             return response()->json($user);
         } catch (Exception $error) {
             return $this->responseError($error->getMessage());
