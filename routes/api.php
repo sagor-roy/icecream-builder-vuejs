@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\TodoController;
 use App\Http\Controllers\UserController;
 use App\Models\User;
@@ -34,5 +35,14 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/logout', [AuthController::class, 'logout']);
     Route::get('/user', [AuthController::class, 'user']);
     Route::get('/all', [AuthController::class, 'all']);
+
+    Route::post('/order', [OrderController::class, 'order']);
+    Route::get('/order-item', [OrderController::class, 'orderItem']);
+    Route::get('/order-delete/{id}', [OrderController::class, 'orderDelete']);
+    
+    Route::post('/user-update/{id}', [AuthController::class, 'update']);
 });
 Route::get('/login', [UserController::class, 'login'])->name('login');
+
+Route::get('/all-order', [OrderController::class, 'allOrder']);
+

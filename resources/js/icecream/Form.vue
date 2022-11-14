@@ -4,7 +4,7 @@
             <div class="backdrop" @click="closeModal()"></div>
             <div class="modalBody">
                 <div class="formContainer react" id="orderForm">
-                    <h1>Complete the form below and hit submit</h1>
+                    <h6>Complete the form below and hit submit</h6>
                     <form class="orderForm" @submit.prevent="formSubmit()">
                         <ul>
                             <li>
@@ -29,7 +29,13 @@
                                 ></textarea>
                             </li>
                             <li>
-                                <input :disabled="name && phone && address ? false:true" type="submit" value="Submit Order" />
+                                <input
+                                    :disabled="
+                                        name && phone && address ? false : true
+                                    "
+                                    type="submit"
+                                    value="Submit Order"
+                                />
                             </li>
                         </ul>
                     </form>
@@ -65,8 +71,26 @@ export default {
                 total: this.total,
                 flevour: this.variant,
             };
+            axios
+                .post("api/order", {
+                    headers: {
+                        Authorization: "Bearer " + this.$store.getters.token,
+                    },
+                    name: info.name,
+                    phone: info.phone,
+                    address: info.address,
+                    total: info.total,
+                    flevour: info.flevour,
+                })
+                .then((res) => {
+                    if (res.data.status) {
+                        this.$router.push("/profile");
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
             this.$emit("cartEmpty");
-            this.$emit("infoPass", info);
             this.closeModal();
         },
     },

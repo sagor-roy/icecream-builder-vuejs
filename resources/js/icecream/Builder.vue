@@ -53,6 +53,7 @@
                 </div>
                 <!-- total price end -->
                 <button
+                    v-if="auth"
                     :disabled="!cart.length > 0"
                     type="button"
                     @click="modalOpen()"
@@ -60,6 +61,12 @@
                 >
                     Process
                 </button>
+                <router-link
+                    v-else
+                    :to="{ name: 'Login' }"
+                    class="order rounded"
+                    >Process</router-link
+                >
             </div>
 
             <!-- modal start -->
@@ -67,7 +74,6 @@
                 v-if="modal"
                 v-on:modal-toggle-close="modalOpen"
                 v-on:cartEmpty="$emit('emptycart')"
-                v-on:infoPass="builComponent($event)"
                 :amount="total"
                 :cart="cart"
             />
@@ -93,8 +99,10 @@ export default {
         modalOpen() {
             this.$emit("modalToggle");
         },
-        builComponent(info) {
-            this.$emit("parent", info);
+    },
+    computed: {
+        auth() {
+            return this.$store.getters.authentication;
         },
     },
 };

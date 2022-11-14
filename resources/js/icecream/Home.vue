@@ -22,12 +22,12 @@
                     v-on:parent="addOrder($event)"
                 />
             </div>
-            <div
+            <!-- <div
                 class="container"
                 :style="order.length > 0 ? {} : { borderBottom: 'none' }"
             >
                 <OrderTable v-if="order.length > 0" :order="order" />
-            </div>
+            </div> -->
         </div>
         <!-- body end -->
 
@@ -62,7 +62,6 @@ export default {
             cart: JSON.parse(localStorage.getItem("items")) ?? [],
             totalPrice: 0,
             showModal: false,
-            order: JSON.parse(localStorage.getItem("info")) ?? [],
         };
     },
     methods: {
@@ -93,13 +92,6 @@ export default {
             localStorage.removeItem("items");
             this.totalPrice = 0;
         },
-        addOrder(info) {
-            this.order.push(info);
-            localStorage.setItem("info", JSON.stringify(this.order));
-        },
-    },
-    mounted() {
-        // console.log(this.cart) // 0
     },
 };
 </script>

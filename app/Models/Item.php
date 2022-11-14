@@ -10,8 +10,8 @@ class Item extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title',
-        'completed',
-        'completed_at',
+        'order_id',
+        'name',
+        'price',
     ];
 }

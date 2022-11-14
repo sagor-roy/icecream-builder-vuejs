@@ -98,7 +98,33 @@ export default {
             isLoading: false,
         };
     },
-    methods: {},
+    methods: {
+        formSubmit() {
+            this.isLoading = true;
+            const data = {
+                name: this.name,
+                email: this.email,
+                password: this.password,
+                password_confirmation: this.password_confirmation,
+            };
+            this.$store
+                .dispatch("register", data)
+                .then((res) => {
+                    this.isLoading = false;
+                    if (res.data.status) {
+                        // this.$router.push({ name: "Profile" });
+                        window.location.reload('/profile')
+                    }
+                    (this.errors = []), (this.resError = res.data.error);
+                })
+                .catch((error) => {
+                    this.isLoading = false;
+                    this.errors = error.response.data.errors;
+                    this.resError = "";
+                    console.log(error);
+                });
+        },
+    },
     computed: {},
 };
 </script>

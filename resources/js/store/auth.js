@@ -5,8 +5,10 @@ export default {
         auth_status: false,
         token: null,
         info: {
+            id: "",
             name: "",
             email: "",
+            img: "",
         },
     },
     mutations: {
@@ -15,8 +17,15 @@ export default {
             state.auth_status = true;
         },
         SET_USER(state, data) {
+            state.info.id = data.id;
             state.info.name = data.name;
             state.info.email = data.email;
+            state.info.img = data.img;
+        },
+        UPDATE_PROFILE(state, data) {
+            state.info.name = data.data.name;
+            state.info.email = data.data.email;
+            state.info.img = data.data.img;
         },
     },
     actions: {
@@ -24,6 +33,22 @@ export default {
             return new Promise((resolve, reject) => {
                 axios
                     .post("api/login", data)
+                    .then((res) => {
+                        resolve(res);
+                        if (res.data.status) {
+                            commit("AUTH_TOKEN", res.data.token);
+                            return dispatch("attempt", res.data.token);
+                        }
+                    })
+                    .catch((error) => {
+                        reject(error);
+                    });
+            });
+        },
+        register({ dispatch, commit }, data) {
+            return new Promise((resolve, reject) => {
+                axios
+                    .post("api/register", data)
                     .then((res) => {
                         resolve(res);
                         if (res.data.status) {
@@ -44,6 +69,7 @@ export default {
                             Authorization: "Bearer " + token,
                         },
                     });
+                    commit("AUTH_TOKEN", token);
                     commit("SET_USER", response.data);
                 }
             } catch (error) {
@@ -51,14 +77,13 @@ export default {
                 commit("SET_USER", null);
             }
         },
+        update({ commit }, data) {
+            commit("UPDATE_PROFILE", data);
+        },
         logout({ state }) {
             return new Promise((resolve, reject) => {
                 axios
-                    .get("api/logout", {
-                        headers: {
-                            Authorization: "Bearer " + state.token,
-                        },
-                    })
+                    .get("api/logout")
                     .then((res) => {
                         resolve(res);
                         state.token = null;

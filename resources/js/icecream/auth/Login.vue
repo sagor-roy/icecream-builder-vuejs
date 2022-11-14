@@ -92,11 +92,13 @@ export default {
                 .then((res) => {
                     this.isLoading = false;
                     if (res.data.status) {
-                        this.$router.push({ name: "Profile" });
+                        //this.$router.push({ name: "Profile" });
+                        window.location.reload("/profile");
                     }
                     (this.errors = []), (this.resError = res.data.error);
                 })
                 .catch((error) => {
+                    this.$store.dispatch("noti", true);
                     this.isLoading = false;
                     this.errors = error.response.data.errors;
                     this.resError = "";

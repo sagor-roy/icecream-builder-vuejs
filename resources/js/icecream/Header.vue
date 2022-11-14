@@ -19,7 +19,7 @@
 
                     <template v-if="auth">
                         <router-link to="/profile" class="btn">{{
-                            user.email
+                            user.name
                         }}</router-link>
                         <button @click="logout()" class="btn">Logout</button>
                     </template>

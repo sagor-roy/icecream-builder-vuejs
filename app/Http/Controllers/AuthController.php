@@ -11,6 +11,7 @@ use App\Traits\ResponseTraits;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -25,7 +26,7 @@ class AuthController extends Controller
                 'password' => Hash::make($request->password)
             ]);
             $token = $user->createToken('token')->accessToken;
-            return response()->json(['token' => $token]);
+            return response()->json(['status' => true, 'token' => $token]);
         } catch (Exception $error) {
             return $this->responseError($error->getMessage());
         }
@@ -39,7 +40,7 @@ class AuthController extends Controller
         try {
             if (Auth::attempt($request->only('email', 'password'))) {
                 $token = Auth::user()->createToken('token')->accessToken;
-                return response()->json(['status'=>true,'token' => $token]);
+                return response()->json(['status' => true, 'token' => $token]);
             }
             return $this->responseError("The credential doesn't match our record");
         } catch (Exception $error) {
@@ -72,6 +73,32 @@ class AuthController extends Controller
         try {
             $user = User::all();
             return response()->json($user);
+        } catch (Exception $error) {
+            return $this->responseError($error->getMessage());
+        }
+    }
+
+    public function update(Request $request, $id)
+    {
+        try {
+            $data = User::find($id);
+            $data->update([
+                'name' => $request->name,
+                'email' => $request->email,
+            ]);
+            if ($request->hasFile('img')) {
+                $file = $request->file('img');
+                $name = time() . '.' . $file->getClientOriginalExtension();
+                $file->move('uploads/', $name);
+                if ($data->img !== null) {
+                    if (file_exists(public_path($data->img))) {
+                        unlink($data->img);
+                    }
+                }
+                $data->img = 'uploads/' . $name;
+                $data->update();
+            }
+            return response()->json(['status' => true, 'data' => $data]);
         } catch (Exception $error) {
             return $this->responseError($error->getMessage());
         }
