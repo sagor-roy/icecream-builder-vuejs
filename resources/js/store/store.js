@@ -1,26 +1,14 @@
 import { createStore } from "vuex";
 import createPersistedState from "vuex-persistedstate";
 import auth from "./auth";
-import order from "./order";
 
 const store = createStore({
-    state: {
-        noti: false,
-    },
+    state: {},
     getters: {},
-    actions: {
-        noti({ commit }, status) {
-            commit("NOTI_STATUS", status);
-        },
-    },
-    mutations: {
-        NOTI_STATUS(state, status) {
-            state.noti = status;
-        },
-    },
+    actions: {},
+    mutations: {},
     modules: {
         auth,
-        order,
     },
     plugins: [
         createPersistedState({

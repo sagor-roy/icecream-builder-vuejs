@@ -1,21 +1,37 @@
 <template lang="">
-    <div class="custom__notification">
-        <div class="noti">
-            <div
-                class="noti__header d-flex align-items-center justify-content-between"
+    <div class="noti" :class="data.type">
+        <div
+            class="noti__header d-flex align-items-center justify-content-between"
+        >
+            <span>
+                {{
+                    data.type == "error"
+                        ? "Error!!"
+                        : data.type == "success"
+                        ? "Success"
+                        : "Warning"
+                }}</span
             >
-                <span>Success</span>
-                <i class="fas fa-close"></i>
-            </div>
-            <div class="noti__body">
-                <p>Lorem ipsum dolor sit amet.</p>
-            </div>
+            <i class="fas fa-close"></i>
+        </div>
+        <div class="noti__body">
+            <p class="m-0">
+                {{
+                    data.type == "error"
+                        ? "❌"
+                        : data.type == "success"
+                        ? "✔"
+                        : "🙄"
+                }}
+                {{ data.message }}
+            </p>
         </div>
     </div>
 </template>
 <script>
 export default {
     name: "Notification",
+    props: ["data"],
 };
 </script>
 <style scoped>
@@ -31,19 +47,31 @@ export default {
 }
 
 .noti {
-    background-color: #198754;
-    display: inline-block;
+    display: block;
     color: #f1f1f1;
     padding: 0;
+    margin: 5px 0;
 }
 
 .noti__header {
-    background-color: #015830;
     display: block;
+    background-color: rgb(0 0 0 / 30%);
 }
 
 .noti__body {
     padding: 0;
     padding-right: 15px;
+}
+
+.success {
+    background-color: rgb(0, 167, 0);
+}
+.warning {
+    background-color: #ffc107;
+    color: #444;
+}
+
+.error {
+    background-color: rgb(204, 67, 67);
 }
 </style>

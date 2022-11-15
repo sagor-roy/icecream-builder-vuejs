@@ -29,8 +29,6 @@
     </div>
 </template>
 <script>
-import axios from "axios";
-
 export default {
     data() {
         return {
@@ -50,8 +48,12 @@ export default {
         logout() {
             this.$store
                 .dispatch("logout")
-                .then((res) => {
+                .then(() => {
                     this.$router.push({ name: "Home" });
+                    this.emitter.emit("notification", {
+                        type: "success",
+                        message: "Logout Successfull!!",
+                    });
                 })
                 .catch((error) => {
                     console.log(error);

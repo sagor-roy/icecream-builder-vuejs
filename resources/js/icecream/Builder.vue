@@ -1,6 +1,5 @@
 <template lang="">
     <div>
-        <!-- builder start -->
         <div class="react" id="builder">
             <div class="builder">
                 <h3>
@@ -11,10 +10,8 @@
                         >{{ cart.length }}</span
                     >
                 </h3>
-                <!-- items start -->
                 <div class="react">
                     <ul>
-                        <!-- item start -->
                         <li
                             class="item"
                             v-for="(item, key) in variants"
@@ -41,17 +38,12 @@
                                 </button>
                             </div>
                         </li>
-                        <!-- item end -->
                     </ul>
                 </div>
-                <!-- items end -->
-
-                <!-- total price start -->
                 <div class="total react" id="total">
                     <div>Total Price</div>
                     <div>{{ total }} Tk</div>
                 </div>
-                <!-- total price end -->
                 <button
                     v-if="auth"
                     :disabled="!cart.length > 0"
@@ -64,12 +56,11 @@
                 <router-link
                     v-else
                     :to="{ name: 'Login' }"
+                    @click="toaster()"
                     class="order rounded"
                     >Process</router-link
                 >
             </div>
-
-            <!-- modal start -->
             <Form
                 v-if="modal"
                 v-on:modal-toggle-close="modalOpen"
@@ -77,9 +68,7 @@
                 :amount="total"
                 :cart="cart"
             />
-            <!-- modal end -->
         </div>
-        <!-- builder end -->
     </div>
 </template>
 <script>
@@ -99,6 +88,12 @@ export default {
         modalOpen() {
             this.$emit("modalToggle");
         },
+        toaster(){
+            this.emitter.emit("notification", {
+                        type: "warning",
+                        message: "Please login first!!",
+                    });
+        }
     },
     computed: {
         auth() {

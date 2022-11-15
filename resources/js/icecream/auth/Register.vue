@@ -1,10 +1,6 @@
 <template lang="">
     <div class="react">
-        <!-- header start -->
         <Header />
-        <!-- header end -->
-
-        <!-- body start -->
         <div class="mainBody react" id="body">
             <div class="container">
                 <form class="form" @submit.prevent="formSubmit()">
@@ -72,11 +68,7 @@
                 </form>
             </div>
         </div>
-        <!-- body end -->
-
-        <!-- footer start -->
         <Footer />
-        <!-- footer end -->
     </div>
 </template>
 <script>
@@ -112,16 +104,26 @@ export default {
                 .then((res) => {
                     this.isLoading = false;
                     if (res.data.status) {
-                        // this.$router.push({ name: "Profile" });
-                        window.location.reload('/profile')
+                        this.emitter.emit("notification", {
+                            type: "success",
+                            message: "Register Successfull!!",
+                        });
+                        window.location.reload("/profile");
                     }
                     (this.errors = []), (this.resError = res.data.error);
+                    this.emitter.emit("notification", {
+                        type: "success",
+                        message: res.data.error,
+                    });
                 })
                 .catch((error) => {
                     this.isLoading = false;
                     this.errors = error.response.data.errors;
                     this.resError = "";
-                    console.log(error);
+                    this.emitter.emit("notification", {
+                        type: "error",
+                        message: "Something went wrong!!",
+                    });
                 });
         },
     },

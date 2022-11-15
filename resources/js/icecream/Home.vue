@@ -1,15 +1,9 @@
 <template lang="">
     <div class="react" id="layout">
-        <!-- header start -->
         <Header />
-        <!-- header end -->
-
-        <!-- body start -->
         <div class="mainBody react" id="body">
             <div class="container react" id="iceCreamBuilder">
-                <!-- icecream start -->
                 <Icecream :variants="cart" />
-                <!-- ice cream end -->
                 <Builder
                     v-on:itemIdPass="addItem($event)"
                     v-on:removeId="removeItem($event)"
@@ -22,18 +16,8 @@
                     v-on:parent="addOrder($event)"
                 />
             </div>
-            <!-- <div
-                class="container"
-                :style="order.length > 0 ? {} : { borderBottom: 'none' }"
-            >
-                <OrderTable v-if="order.length > 0" :order="order" />
-            </div> -->
         </div>
-        <!-- body end -->
-
-        <!-- footer start -->
         <Footer />
-        <!-- footer end -->
     </div>
 </template>
 <script>
@@ -66,8 +50,13 @@ export default {
     },
     methods: {
         addItem(id) {
-            this.cart.push(this.variants.find((variant) => variant.id === id));
+            const flavour = this.variants.find((variant) => variant.id === id);
+            this.cart.push(flavour);
             this.total();
+            this.emitter.emit("notification", {
+                type: "success",
+                message: "You Select to " + flavour.name + " Flavour",
+            });
             localStorage.setItem("items", JSON.stringify(this.cart));
         },
         total() {
@@ -82,6 +71,10 @@ export default {
                 this.cart.splice(position, 1);
                 localStorage.setItem("items", JSON.stringify(this.cart));
                 this.total();
+                this.emitter.emit("notification", {
+                    type: "warning",
+                    message: "Item Remove",
+                });
             }
         },
         modalShow() {

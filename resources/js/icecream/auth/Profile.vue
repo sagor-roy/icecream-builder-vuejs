@@ -1,10 +1,6 @@
 <template lang="">
     <div class="react">
-        <!-- header start -->
         <Header />
-        <!-- header end -->
-
-        <!-- body start -->
         <div class="mainBody react" id="body">
             <div class="container">
                 <div>
@@ -158,11 +154,7 @@
                 </div>
             </div>
         </div>
-        <!-- body end -->
-
-        <!-- footer start -->
         <Footer />
-        <!-- footer end -->
     </div>
 </template>
 <script>

@@ -84,6 +84,10 @@ export default {
                 })
                 .then((res) => {
                     if (res.data.status) {
+                        this.emitter.emit("notification", {
+                            type: "success",
+                            message: "Order Successfull!!!",
+                        });
                         this.$router.push("/profile");
                     }
                 })
