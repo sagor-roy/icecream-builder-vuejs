@@ -19,7 +19,12 @@ class FlavourController extends Controller
     public function itemGet()
     {
         try {
-            $item = Flavour::orderby('id', 'desc')->paginate(3);
+            if (request()->get('sorting') == '') {
+                $sort = 10;
+            } else {
+                $sort = request()->get('sorting');
+            }
+            $item = Flavour::orderby('id', 'desc')->paginate($sort);
             return response()->json($item);
         } catch (Exception $error) {
             return $this->responseError($error->getMessage());

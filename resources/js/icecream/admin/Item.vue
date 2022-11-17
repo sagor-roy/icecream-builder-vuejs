@@ -6,16 +6,32 @@
         >
     </div>
     <hr />
+    <div class="d-flex align-items-center justify-content-between mt-3">
+        <select v-model="sorting" style="width: 10%">
+            <option value="" disabled>Sort :</option>
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+        </select>
+        <input type="search" placeholder="Search...." v-model="search" />
+    </div>
     <table class="customers mt-3" style="text-align: center">
         <tr>
-            <th class="d-flex align-items-center">
+            <th class="d-flex align-items-center justify-content-center">
                 <input
                     type="checkbox"
                     id="all"
                     @change="selectAll($event)"
                     v-model="checkAll"
                 />
-                <label for="all" class="ms-1">All</label>
+                <label for="all" class="ms-1"
+                    >All
+                    <span style="color: black"
+                        >({{ check.length }})</span
+                    ></label
+                >
             </th>
             <th>Name</th>
             <th>Color</th>
@@ -89,12 +105,14 @@ export default {
             check: [],
             checkAll: false,
             selected: "",
+            sorting: "",
+            search: "",
         };
     },
     methods: {
         getsData(page = 1) {
             axios
-                .get(`/api/items/get?page=${page}`)
+                .get(`/api/items/get?page=${page}&sorting=${this.sorting}`)
                 .then((res) => {
                     this.items = res.data;
                 })
@@ -159,9 +177,10 @@ export default {
             this.modal = false;
             this.modalItem = null;
         });
-        this.emitter.on("updateData", () => {
-            this.getsData();
+        this.emitter.on("updateData", (res) => {
             this.modal = false;
+            this.items.data.splice(position, 1);
+            this.getsData();
         });
     },
     watch: {
@@ -182,6 +201,28 @@ export default {
                 .catch((error) => {
                     console.log(error);
                 });
+        },
+        sorting(sorting) {
+            axios
+                .get(
+                    `/api/items/get?page=${this.items.current_page}&sorting=${sorting}`
+                )
+                .then((res) => {
+                    this.items = {};
+                    this.items = res.data;
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
+        search(search) {
+            this.items.data = this.items.data.filter((item) => {
+                return (
+                    item.name.toLowerCase().indexOf(search.toLowerCase()) > -1
+                );
+            });
+            console.log(this.items);
+            console.log(search);
         },
     },
 };
