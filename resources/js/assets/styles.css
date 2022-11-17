@@ -2,7 +2,8 @@
 * {
   box-sizing: border-box;
   font-size: 14px;
-  padding: 5px;
+  padding: 0;
+  margin: 0;
 }
 
 body {
@@ -12,6 +13,7 @@ body {
   color: #1d2129;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
     Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  overflow-x: hidden;
 }
 
 p {
@@ -20,8 +22,6 @@ p {
 
 ul {
   list-style-type: none;
-  width: 100%;
-  margin: 25px auto 10px;
   padding: 0;
 }
 
@@ -440,4 +440,50 @@ div#footer {
   bottom: 0;
   padding: 20px 0;
   border-top: 1px solid #b3aaaa;
+}
+
+.active__class {
+  padding: 10px;
+}
+
+.router-link-active.router-link-exact-active.active__class {
+  background-color: #0d6efd;
+  color: #eeeeee;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+}
+
+
+input.form-control.colors {
+  height: auto;
+  width: 55%;
+}
+
+
+.custom___modal {
+  position: relative;
+}
+
+.modal__layout {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgb(0 0 0 / 61%);
+  top: 0;
+  left: 0;
+  bottom: 0;
+  cursor: pointer;
+}
+
+.modal__body {
+  position: fixed;
+  width: 30%;
+  left: 35%;
+  top: 20%;
+  background-color: white;
+  padding: 25px;
+  border-radius: 5px;
 }

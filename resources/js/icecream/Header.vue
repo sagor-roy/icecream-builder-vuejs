@@ -1,6 +1,6 @@
 <template lang="">
     <div>
-        <header>
+        <header class="py-4">
             <div class="container react" id="header">
                 <div>
                     <router-link :to="{ name: 'Home' }"

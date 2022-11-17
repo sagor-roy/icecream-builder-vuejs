@@ -26,6 +26,7 @@ import Builder from "./Builder.vue";
 import Icecream from "./Icecream.vue";
 import Footer from "./Footer.vue";
 import OrderTable from "./Order.vue";
+import axios from "axios";
 export default {
     components: {
         Header,
@@ -36,13 +37,7 @@ export default {
     },
     data() {
         return {
-            variants: [
-                { id: 1, name: "Chocolate", price: 120 },
-                { id: 2, name: "Vanilla", price: 90 },
-                { id: 3, name: "Orange", price: 50 },
-                { id: 4, name: "Strawberry", price: 80 },
-                { id: 5, name: "Lemon", price: 150 },
-            ],
+            variants: [],
             cart: JSON.parse(localStorage.getItem("items")) ?? [],
             totalPrice: 0,
             showModal: false,
@@ -85,6 +80,19 @@ export default {
             localStorage.removeItem("items");
             this.totalPrice = 0;
         },
+        getAllData() {
+            axios
+                .get("api/all/items")
+                .then((res) => {
+                    this.variants = res.data
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
+    },
+    mounted() {
+        this.getAllData();
     },
 };
 </script>

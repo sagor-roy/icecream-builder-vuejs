@@ -36,9 +36,7 @@ export default {
                 .put("api/update/" + this.item.id, {
                     completed: this.item.completed,
                 })
-                .then((res) => {
-                   
-                })
+                .then((res) => {})
                 .catch((error) => {
                     console.log(error);
                 });
@@ -53,6 +51,9 @@ export default {
                 .catch((error) => {
                     console.log(error);
                 });
+        },
+        checkUpdate() {
+            alert();
         },
     },
 };

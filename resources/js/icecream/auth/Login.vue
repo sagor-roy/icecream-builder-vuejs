@@ -88,7 +88,12 @@ export default {
                             type: "success",
                             message: "Login Successfull",
                         });
-                        window.location.reload("/profile");
+                        const role = res.data.role;
+                        if (role == 1) {
+                            this.$router.push("/admin/dashboard");
+                        } else if (role == 0) {
+                            this.$router.push("/profile");
+                        }
                     } else {
                         this.emitter.emit("notification", {
                             type: "warning",

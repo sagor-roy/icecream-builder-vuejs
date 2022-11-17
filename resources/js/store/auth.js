@@ -7,6 +7,7 @@ export default {
         info: {
             id: "",
             name: "",
+            role: "",
             email: "",
             img: "",
         },
@@ -18,6 +19,7 @@ export default {
         },
         SET_USER(state, data) {
             state.info.id = data.id;
+            state.info.role = data.role;
             state.info.name = data.name;
             state.info.email = data.email;
             state.info.img = data.img;
@@ -69,6 +71,8 @@ export default {
                             Authorization: "Bearer " + token,
                         },
                     });
+                    axios.defaults.headers.common["Authorization"] =
+                        "Bearer " + token;
                     commit("AUTH_TOKEN", token);
                     commit("SET_USER", response.data);
                 }

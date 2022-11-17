@@ -56,10 +56,11 @@ export default {
 .noti__header {
     display: block;
     background-color: rgb(0 0 0 / 30%);
+    padding: 5px 12px;
 }
 
 .noti__body {
-    padding: 0;
+    padding: 5px;
     padding-right: 15px;
 }
 

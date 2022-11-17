@@ -3,7 +3,7 @@
         <div>
             <div class="icecream react" id="icecream">
                 <p class="cone"></p>
-                <div class="scoop" v-for="(item,key) in variants" :key="key" :class="item.name.toLowerCase()"></div>
+                <div class="scoop" v-for="(item,key) in variants" :key="key" :style="{background: item.color}"></div>
                 <div class="cherry" v-if="variants.length > 0"></div>
                 <div class="question" v-else></div>
             </div>

@@ -108,7 +108,12 @@ export default {
                             type: "success",
                             message: "Register Successfull!!",
                         });
-                        window.location.reload("/profile");
+                        const role = res.data.role;
+                        if (role == 1) {
+                            this.$router.push("/admin/dashboard");
+                        } else if (role == 0) {
+                            this.$router.push("/profile");
+                        }
                     }
                     (this.errors = []), (this.resError = res.data.error);
                     this.emitter.emit("notification", {

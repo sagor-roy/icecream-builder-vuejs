@@ -22,11 +22,12 @@ class AuthController extends Controller
         try {
             $user = User::create([
                 'name' => $request->name,
+                'role' => 0,
                 'email' => $request->email,
                 'password' => Hash::make($request->password)
             ]);
             $token = $user->createToken('token')->accessToken;
-            return response()->json(['status' => true, 'token' => $token]);
+            return response()->json(['status' => true, 'token' => $token, 'role' => $user->role]);
         } catch (Exception $error) {
             return $this->responseError($error->getMessage());
         }
@@ -40,7 +41,7 @@ class AuthController extends Controller
         try {
             if (Auth::attempt($request->only('email', 'password'))) {
                 $token = Auth::user()->createToken('token')->accessToken;
-                return response()->json(['status' => true, 'token' => $token]);
+                return response()->json(['status' => true, 'token' => $token, 'role' => Auth::user()->role]);
             }
             return $this->responseError("The credential doesn't match our record");
         } catch (Exception $error) {

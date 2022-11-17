@@ -72,16 +72,7 @@ export default {
                 flevour: this.variant,
             };
             axios
-                .post("api/order", {
-                    headers: {
-                        Authorization: "Bearer " + this.$store.getters.token,
-                    },
-                    name: info.name,
-                    phone: info.phone,
-                    address: info.address,
-                    total: info.total,
-                    flevour: info.flevour,
-                })
+                .post("api/order", info,)
                 .then((res) => {
                     if (res.data.status) {
                         this.emitter.emit("notification", {

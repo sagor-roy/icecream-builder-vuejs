@@ -5,7 +5,7 @@
             <div class="container">
                 <div>
                     <div class="row">
-                        <div class="col-md-4 offset-md-4" >
+                        <div class="col-md-4 offset-md-4">
                             <div class="card card-body text-center shadow">
                                 <img
                                     :src="user.img == null ? imgurl : user.img"
@@ -180,12 +180,20 @@ export default {
             toggle: false,
             profile: null,
             data_length: 0,
+            token: null,
         };
+    },
+    mounted() {
+        this.getsData();
     },
     methods: {
         getsData(pageId = 1) {
             axios
-                .get(`api/order-item?page=${pageId}`)
+                .get(`api/order-item?page=${pageId}`, {
+                    headers: {
+                        Authorization: "Bearer " + this.$store.getters.token,
+                    },
+                })
                 .then((res) => {
                     this.items = res.data;
                     this.data_length = res.data.data.length;
@@ -234,9 +242,6 @@ export default {
                     console.log(error);
                 });
         },
-    },
-    mounted() {
-        this.getsData();
     },
     computed: {
         user() {
