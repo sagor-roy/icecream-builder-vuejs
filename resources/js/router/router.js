@@ -7,7 +7,7 @@ import store from "../store/store";
 import Layouts from "../icecream/admin/Layouts.vue";
 import Dashboard from "../icecream/admin/Dashboard.vue";
 import Item from "../icecream/admin/Item.vue";
-import Order from "../icecream/admin/Order.vue";
+import Chat from "../icecream/admin/Chat.vue";
 import Create from "../icecream/admin/Create.vue";
 import Edit from "../icecream/admin/Edit.vue";
 
@@ -70,8 +70,8 @@ const routes = [
                 component: Item,
             },
             {
-                path: "order",
-                component: Order,
+                path: "chatbot",
+                component: Chat,
             },
             {
                 path: "item/create",

@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Message;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,7 +16,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\Flavour::factory(1000)->create();
+        \App\Models\User::factory(10)->create();
+        \App\Models\Flavour::factory(100)->create();
+        //Message::factory(200)->create();
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',

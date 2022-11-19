@@ -86,7 +86,7 @@ export default {
                     status: this.status,
                 })
                 .then((res) => {
-                    this.emitter.emit("updateData");
+                    this.emitter.emit("updateData", this.id);
                 })
                 .catch((error) => {
                     console.log(error);

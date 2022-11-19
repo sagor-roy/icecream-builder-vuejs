@@ -486,3 +486,40 @@ input.form-control.colors {
   padding: 25px;
   border-radius: 5px;
 }
+
+ul.chatlist li button {
+  padding: 10px;
+  display: block;
+  width: 100%;
+  text-align: left;
+}
+
+p.send {
+  background-color: #e0e0e0;
+  display: inline-block;
+}
+
+.receiver p {
+  background-color: #0d6efd;
+  display: inline-block;
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.sender p {
+  background-color: #adb5bd;
+  display: inline-block;
+  color: #212529;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.message.sender {
+  text-align: right;
+}
+
+.message__box {
+  height: 70vh !important;
+  overflow-y: scroll;
+}

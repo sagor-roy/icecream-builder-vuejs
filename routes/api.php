@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FlavourController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\TodoController;
 use App\Http\Controllers\UserController;
@@ -49,6 +50,10 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/update/items/{id}', [FlavourController::class, 'update']);
 
     Route::post('/items/status', [FlavourController::class, 'itemStatus']);
+
+
+    Route::get('/user/message/{id}', [MessageController::class, 'all']);
+    Route::post('/message/store', [MessageController::class, 'store']);
 });
 Route::get('/login', [UserController::class, 'login'])->name('login');
 

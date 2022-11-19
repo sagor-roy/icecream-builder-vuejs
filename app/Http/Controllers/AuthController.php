@@ -72,7 +72,7 @@ class AuthController extends Controller
     public function all()
     {
         try {
-            $user = User::all();
+            $user = User::where('id', '!=', Auth::id())->get();
             return response()->json($user);
         } catch (Exception $error) {
             return $this->responseError($error->getMessage());

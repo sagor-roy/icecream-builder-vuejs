@@ -177,10 +177,11 @@ export default {
             this.modal = false;
             this.modalItem = null;
         });
-        this.emitter.on("updateData", (res) => {
+        this.emitter.on("updateData", (id) => {
             this.modal = false;
+            let position = this.items.data.findIndex((item) => item.id === id);
             this.items.data.splice(position, 1);
-            this.getsData();
+            this.getsData(this.items.current_page);
         });
     },
     watch: {
@@ -221,8 +222,6 @@ export default {
                     item.name.toLowerCase().indexOf(search.toLowerCase()) > -1
                 );
             });
-            console.log(this.items);
-            console.log(search);
         },
     },
 };
