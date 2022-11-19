@@ -7,25 +7,7 @@
             item.from !== id ? { textAlign: 'left' } : { textAlign: 'right' }
         "
     >
-        <p
-            :style="
-                item.from == id
-                    ? {
-                          backgroundColor: '#0D6EFD',
-                          color: 'white',
-                          padding: '10px',
-                          borderRadius: '10px',
-                          display: 'inline-block',
-                      }
-                    : {
-                          backgroundColor: '#adb5bd',
-                          padding: '10px',
-                          borderRadius: '10px',
-                          display: 'inline-block',
-                      }
-            "
-            class="my-1"
-        >
+        <p :class="[item.from == id ? 'sender' : 'receiver']" class="my-1">
             {{ item.message }}
         </p>
     </div>
@@ -43,3 +25,20 @@ export default {
     },
 };
 </script>
+
+<style scoped>
+.sender {
+    background-color: #0d6efd;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    display: inline-block;
+}
+
+.receiver {
+    background-color: #adb5bd;
+    padding: 10px;
+    border-radius: 10px;
+    display: inline-block;
+}
+</style>
